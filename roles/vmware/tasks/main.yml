@@ -2,11 +2,11 @@
 
 - ansible.builtin.set_fact:
     create_categories: true
-  when: category_created
+  when: category_created is defined
 
 - ansible.builtin.set_fact:
     create_tags: true
-  when: tags_created
+  when: tags_created is defined
  
 - name: Create a category
   community.vmware.vmware_category:
