@@ -1,0 +1,29 @@
+---
+- name: Clone a VM
+  vmware.vmware_rest.vcenter_vm:
+    placement:
+      folder: "{{ folder }}"
+      resource_pool: "{{ pool }}"
+      datastore: "{{ datastore }}"
+    source: "{{ source_vm }}"
+    name: "{{ vm_name }}"
+    state: clone
+    power_on: true
+    vcenter_validate_certs: false
+  register: my_clone
+
+- name: Update the vm-tools
+  vmware.vmware_rest.vcenter_vm_tools_installer:
+    vm: '{{ my_clone.id }}'
+    state: connect
+    vcenter_validate_certs: false
+
+- name: Add tags to the virtual machine
+  community.vmware.vmware_tag_manager:
+    tag_names:
+      - "{{ item }}"
+    object_name: "{{ vm_name }}"
+    object_type: VirtualMachine
+    state: add
+    validate_certs: false
+  loop: "{{ tags }}"

@@ -1,0 +1,19 @@
+---
+- name: Create a category
+  community.vmware.vmware_category:
+    category_name: "{{ category }}"
+    category_description: "{{ category_description }}"
+    category_cardinality: 'multiple'
+    validate_certs: false
+    state: present
+
+- name: Create tag
+  community.vmware.vmware_tag:
+    tag_name: "{{ item }}"
+    category_name: "{{ category_name }}"
+    state: present
+    validate_certs: false
+  loop: "{{ tags }}"
+
+- name: Deploy Virtual Machines
+  ansible.builtin.include_tasks: provision.yml
