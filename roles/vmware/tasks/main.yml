@@ -10,7 +10,7 @@
 - name: Create tag
   community.vmware.vmware_tag:
     tag_name: "{{ item }}"
-    category_name: "{{ category_name }}"
+    category_name: "{{ category }}"
     state: present
     validate_certs: false
   loop: "{{ tags }}"
