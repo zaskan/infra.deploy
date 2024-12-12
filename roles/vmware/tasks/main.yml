@@ -16,7 +16,7 @@
     validate_certs: false
     state: present
   register: category_created
-  when: create_categories == false
+  when: create_categories is not defined
 
 - name: Create tag
   community.vmware.vmware_tag:
@@ -26,7 +26,7 @@
     validate_certs: false
   loop: "{{ tags }}"
   register: tags_created
-  when: create_tags
+  when: create_tags is not defined
 
 - name: Deploy Virtual Machines
   ansible.builtin.include_tasks: provision.yml
