@@ -6,7 +6,7 @@
       resource_pool: "{{ pool }}"
       datastore: "{{ datastore }}"
     source: "{{ source_vm }}"
-    name: "{{ item.vmname }}"
+    name: "{{ item.vm_name }}"
     state: clone
     power_on: true
     vcenter_validate_certs: false
