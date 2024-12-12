@@ -17,3 +17,11 @@
 
 - name: Deploy Virtual Machines
   ansible.builtin.include_tasks: provision.yml
+
+- name: Add tags to the virtual machine
+  community.vmware.vmware_tag_manager:
+    tag_names: "{{ item.add_tags }}"
+    object_name: "{{ item.vm_name }}"
+    object_type: VirtualMachine
+    state: add
+    validate_certs: false

@@ -26,11 +26,3 @@
     state: connect
     vcenter_validate_certs: false
   when: vm.value | length <= 0
-
-- name: Add tags to the virtual machine
-  community.vmware.vmware_tag_manager:
-    tag_names: "{{ item.add_tags }}"
-    object_name: "{{ item.vm_name }}"
-    object_type: VirtualMachine
-    state: add
-    validate_certs: false
