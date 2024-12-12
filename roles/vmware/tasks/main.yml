@@ -28,4 +28,3 @@
   loop_control:
     loop_var: add_tag
   loop: "{{ item.add_tags }}"
-
