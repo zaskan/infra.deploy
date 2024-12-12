@@ -20,8 +20,12 @@
 
 - name: Add tags to the virtual machine
   community.vmware.vmware_tag_manager:
-    tag_names: "{{ item.add_tags }}"
+    tag_names: "{{ item.add_tag }}"
     object_name: "{{ item.vm_name }}"
     object_type: VirtualMachine
     state: add
     validate_certs: false
+  loop_control:
+    loop_var: add_tag
+  loop: "{{ item.add_tags }}"
+
