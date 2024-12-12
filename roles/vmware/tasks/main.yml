@@ -44,4 +44,4 @@
     validate_certs: false
   loop_control:
     loop_var: tag_var
-  loop: "{{ add_tags }}"
+  loop: "{{ item.add_tags }}"
