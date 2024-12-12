@@ -1,4 +1,11 @@
 ---
+- name: Look up the VM called test_vm1 in the inventory
+  vmware.vmware_rest.vcenter_vm_info:
+    vcenter_validate_certs: false
+    filter_names:
+      - "{{ item.vm_name }}"
+  register: vm
+
 - name: Clone a VM
   vmware.vmware_rest.vcenter_vm:
     placement:
@@ -10,6 +17,7 @@
     state: clone
     power_on: true
     vcenter_validate_certs: false
+  when: vm.value | length < 0
   register: my_clone
 
 - name: Update the vm-tools
@@ -17,6 +25,7 @@
     vm: '{{ my_clone.id }}'
     state: connect
     vcenter_validate_certs: false
+  when: vm.value | length < 0
 
 - name: Add tags to the virtual machine
   community.vmware.vmware_tag_manager:
