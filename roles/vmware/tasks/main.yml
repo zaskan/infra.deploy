@@ -1,13 +1,15 @@
 ---
 
-- ansible.builtin.set_fact:
+- name: Control variables for categories creation
+  ansible.builtin.set_fact:
     create_categories: true
   when: category_created is defined
 
-- ansible.builtin.set_fact:
+- name: Control variables for tags creation
+  ansible.builtin.set_fact:
     create_tags: true
   when: tags_created is defined
- 
+
 - name: Create a category
   community.vmware.vmware_category:
     category_name: "{{ category }}"
@@ -33,8 +35,13 @@
 
 - name: Add tags to the virtual machine
   community.vmware.vmware_tag_manager:
-    tag_names: "{{ item.add_tags }}"
+    tag_names:
+      - tag: tag_var
+        category: "{{ category }}"
     object_name: "{{ item.vm_name }}"
     object_type: VirtualMachine
     state: add
     validate_certs: false
+  loop_control:
+    loop_var: tag_var
+  loop: "{{ add_tags }}"
