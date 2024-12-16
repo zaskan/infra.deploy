@@ -10,6 +10,22 @@
     create_tags: true
   when: tags_created is defined
 
+- name: Initialize a list for tags
+  ansible.builtin.set_fact:
+    all_tags: []
+  when: create_categories is not defined
+
+- name: Accumulate all tags
+  ansible.builtin.set_fact:
+    all_tags: "{{ all_tags + item.add_tags }}"
+  loop: "{{ nodes }}"
+  when: create_categories is not defined
+
+- name: Deduplicate the list of tags
+  ansible.builtin.set_fact:
+    all_tags: "{{ all_tags | unique }}"
+  when: create_categories is not defined
+
 - name: Create a category
   community.vmware.vmware_category:
     category_name: "{{ category }}"
@@ -26,7 +42,7 @@
     category_name: "{{ category }}"
     state: present
     validate_certs: false
-  loop: "{{ tags }}"
+  loop: "{{ all_tags }}"
   register: tags_created
   when: create_tags is not defined
 
