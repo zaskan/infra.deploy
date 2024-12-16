@@ -1,4 +1,5 @@
 ---
+- debug: msg="{{ nodes }}"
 
 - name: Control variables for categories creation
   ansible.builtin.set_fact:
@@ -18,7 +19,7 @@
 - name: Accumulate all tags
   ansible.builtin.set_fact:
     all_tags: "{{ all_tags + item.add_tags }}"
-  loop: "{{ nodes.add_tags }}"
+  loop: "{{ nodes }}"
   when: create_categories is not defined
 
 - name: Deduplicate the list of tags
