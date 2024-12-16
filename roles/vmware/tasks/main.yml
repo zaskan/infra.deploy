@@ -1,6 +1,4 @@
 ---
-- debug: msg="{{ nodes }}"
-
 - name: Control variables for categories creation
   ansible.builtin.set_fact:
     create_categories: true
