@@ -18,7 +18,7 @@
 - name: Accumulate all tags
   ansible.builtin.set_fact:
     all_tags: "{{ all_tags + item.add_tags }}"
-  loop: "{{ nodes }}"
+  loop: "{{ nodes.add_tags }}"
   when: create_categories is not defined
 
 - name: Deduplicate the list of tags
