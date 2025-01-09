@@ -5,6 +5,7 @@
     project: "{{ project_id }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
+    service_account_contents: "{{ service_account_content }}"
     # For a custom-mode network, set auto_create_subnetworks to false
     auto_create_subnetworks: false
   register: network_result
@@ -18,6 +19,7 @@
     ip_cidr_range: "{{ subnet_cidr }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
+    service_account_contents: "{{ service_account_content }}"
   register: subnetwork_result
 
 - name: "Allow inbound SSH (22) and HTTPS (443) from anywhere"
@@ -27,6 +29,7 @@
     network: "{{ network_name }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
+    service_account_contents: "{{ service_account_content }}"
     allow:
       - protocol: tcp
         ports:
@@ -53,6 +56,7 @@
     zone: "{{ zone }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
+    service_account_contents: "{{ service_account_content }}"
     machine_type: "{{ machine_type }}"
     disks:
       - auto_delete: true
