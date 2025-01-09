@@ -1,6 +1,4 @@
 ---
-# tasks file for gcloud
----
 - name: "Ensure the {{ network_name }} network exists"
   google.cloud.gcp_compute_network:
     name: "{{ network_name }}"
