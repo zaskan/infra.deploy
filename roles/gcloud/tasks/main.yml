@@ -3,7 +3,9 @@
   google.cloud.gcp_compute_network:
     name: "{{ network_name }}"
     project: "{{ project_id }}"
-    credentials_file: "{{ credentials_file }}"
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file }}"
+    # For a custom-mode network, set auto_create_subnetworks to false
     auto_create_subnetworks: false
   register: network_result
 
@@ -14,7 +16,8 @@
     region: "{{ region }}"
     network: "{{ network_name }}"
     ip_cidr_range: "{{ subnet_cidr }}"
-    credentials_file: "{{ credentials_file }}"
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file }}"
   register: subnetwork_result
 
 - name: "Allow inbound SSH (22) and HTTPS (443) from anywhere"
@@ -22,6 +25,8 @@
     name: "{{ firewall_name }}"
     project: "{{ project_id }}"
     network: "{{ network_name }}"
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file }}"
     allow:
       - protocol: tcp
         ports:
@@ -29,12 +34,9 @@
           - "443"
     source_ranges:
       - "0.0.0.0/0"
-    credentials_file: "{{ credentials_file }}"
   register: firewall_result
 
 - name: "Generate SSH key pair (if not using pre-created keys)"
-  # This task will run only once on the controlling machine
-  # and store keys in the path defined by ssh_key_path.
   openssh_keypair:
     path: "{{ ssh_key_path }}"
     type: rsa
@@ -49,6 +51,8 @@
     name: "rhel9-instance-{{ item }}"
     project: "{{ project_id }}"
     zone: "{{ zone }}"
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file }}"
     machine_type: "{{ machine_type }}"
     disks:
       - auto_delete: true
@@ -63,13 +67,12 @@
           - name: External NAT
             type: ONE_TO_ONE_NAT
     metadata:
-      # For GCP, the 'ssh-keys' metadata is a single multi-line string where 
-      # each line is of the form: "<username>:<public_key>"
       ssh-keys: |
         rhel:{{ 
-          (generated_keys.public_key if not use_precreated_keys 
-           else precreated_public_key) | b64decode if precreated_public_key != "" 
+          (
+            generated_keys.public_key if not use_precreated_keys 
+            else precreated_public_key
+          ) | b64decode if precreated_public_key != "" 
           else (generated_keys.public_key if not use_precreated_keys else "")
         }}
-    credentials_file: "{{ credentials_file }}"
   loop: "{{ range(1, number_of_instances|int + 1) | list }}"
