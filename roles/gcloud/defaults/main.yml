@@ -1,2 +1,33 @@
 ---
-# defaults file for gcloud
+# Default variables for the gcp_instances role
+
+project_id: your-gcp-project-id
+credentials_file: /path/to/your-service-account.json
+region: us-central1
+zone: us-central1-a
+
+# Number of instances to create
+number_of_instances: 1
+
+# GCE machine type
+machine_type: e2-micro
+
+# RHEL 9 image details
+image_project: rhel-cloud
+image_family: rhel-9
+
+# If set to true, the role will NOT generate new SSH keys, 
+# and will use 'precreated_public_key' as provided externally.
+use_precreated_keys: false
+precreated_public_key: ""
+
+# Paths to store SSH keys if generating them
+ssh_key_path: "~/.ssh/gcp_rhel_key"
+
+# Network details
+network_name: my-custom-network
+subnetwork_name: my-custom-subnet
+subnet_cidr: 10.0.0.0/24
+
+# Firewall rule name
+firewall_name: allow-ssh-https
