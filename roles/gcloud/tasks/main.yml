@@ -1,0 +1,77 @@
+---
+# tasks file for gcloud
+---
+- name: "Ensure the {{ network_name }} network exists"
+  google.cloud.gcp_compute_network:
+    name: "{{ network_name }}"
+    project: "{{ project_id }}"
+    credentials_file: "{{ credentials_file }}"
+    auto_create_subnetworks: false
+  register: network_result
+
+- name: "Ensure the {{ subnetwork_name }} subnetwork exists"
+  google.cloud.gcp_compute_subnetwork:
+    name: "{{ subnetwork_name }}"
+    project: "{{ project_id }}"
+    region: "{{ region }}"
+    network: "{{ network_name }}"
+    ip_cidr_range: "{{ subnet_cidr }}"
+    credentials_file: "{{ credentials_file }}"
+  register: subnetwork_result
+
+- name: "Allow inbound SSH (22) and HTTPS (443) from anywhere"
+  google.cloud.gcp_compute_firewall:
+    name: "{{ firewall_name }}"
+    project: "{{ project_id }}"
+    network: "{{ network_name }}"
+    allow:
+      - protocol: tcp
+        ports:
+          - "22"
+          - "443"
+    source_ranges:
+      - "0.0.0.0/0"
+    credentials_file: "{{ credentials_file }}"
+  register: firewall_result
+
+- name: "Generate SSH key pair (if not using pre-created keys)"
+  # This task will run only once on the controlling machine
+  # and store keys in the path defined by ssh_key_path.
+  openssh_keypair:
+    path: "{{ ssh_key_path }}"
+    type: rsa
+    size: 2048
+    comment: "Key for GCP RHEL instances"
+  register: generated_keys
+  when: not use_precreated_keys
+  run_once: true
+
+- name: "Create {{ number_of_instances }} instance(s)"
+  google.cloud.gcp_compute_instance:
+    name: "rhel9-instance-{{ item }}"
+    project: "{{ project_id }}"
+    zone: "{{ zone }}"
+    machine_type: "{{ machine_type }}"
+    disks:
+      - auto_delete: true
+        boot: true
+        type: pd-standard
+        initialize_params:
+          source_image: "projects/{{ image_project }}/global/images/family/{{ image_family }}"
+    network_interfaces:
+      - network: "{{ network_name }}"
+        subnetwork: "{{ subnetwork_name }}"
+        access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+    metadata:
+      # For GCP, the 'ssh-keys' metadata is a single multi-line string where 
+      # each line is of the form: "<username>:<public_key>"
+      ssh-keys: |
+        rhel:{{ 
+          (generated_keys.public_key if not use_precreated_keys 
+           else precreated_public_key) | b64decode if precreated_public_key != "" 
+          else (generated_keys.public_key if not use_precreated_keys else "")
+        }}
+    credentials_file: "{{ credentials_file }}"
+  loop: "{{ range(1, number_of_instances|int + 1) | list }}"
