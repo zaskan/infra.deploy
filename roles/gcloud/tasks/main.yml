@@ -10,6 +10,8 @@
     auto_create_subnetworks: true
   register: network_result
 
+- debug: msg="{{ network_result }}"
+
 - name: "Ensure the {{ subnetwork_name }} subnetwork exists"
   google.cloud.gcp_compute_subnetwork:
     name: "{{ subnetwork_name }}"
