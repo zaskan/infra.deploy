@@ -27,13 +27,13 @@
   google.cloud.gcp_compute_firewall:
     name: "{{ firewall_name }}"
     project: "{{ project_id }}"
-    network: 
+    network:
       selfLink: "{{ network_result.selfLink }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
-    allow:
-      - protocol: tcp
+    allowed:
+      - ip_protocol: tcp
         ports:
           - "22"
           - "443"
