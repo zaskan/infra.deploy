@@ -15,7 +15,7 @@
     name: "{{ subnetwork_name }}"
     project: "{{ project_id }}"
     region: "{{ region }}"
-    network: "{{ network_result }}"
+    network: "{{ network_result.selfLink }}"
     ip_cidr_range: "{{ subnet_cidr }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
@@ -26,7 +26,7 @@
   google.cloud.gcp_compute_firewall:
     name: "{{ firewall_name }}"
     project: "{{ project_id }}"
-    network: "{{ network_name }}"
+    network: "{{ network_name.selfLink }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
