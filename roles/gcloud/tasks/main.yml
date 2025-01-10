@@ -1,8 +1,19 @@
 ---
+- name: get info on a project
+  gcp_resourcemanager_project_info:
+    project: "{{ project_id }}"
+    auth_kind: serviceaccount
+    service_account_file: "{{ service_account_file }}"
+    service_account_contents: "{{ service_account_content }}"
+    page_size: 100
+  register: project
+
+- debug: msg="{{ project }}"
+
 - name: "Ensure the {{ network_name }} network exists"
   google.cloud.gcp_compute_network:
     name: "{{ network_name }}"
-    project: "openenv-b9dlv"
+    project: "{{ project_id }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
@@ -15,7 +26,7 @@
 - name: "Ensure the {{ subnetwork_name }} subnetwork exists"
   google.cloud.gcp_compute_subnetwork:
     name: "{{ subnetwork_name }}"
-    project: "openenv-b9dlv"
+    project: "{{ project_id }}"
     region: "{{ region }}"
     network:
       selfLink: "{{ network_result.selfLink }}"
