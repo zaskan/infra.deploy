@@ -55,7 +55,7 @@
 
 - name: "Create {{ number_of_instances }} instance(s)"
   google.cloud.gcp_compute_instance:
-    name: "rhel9-instance-{{ item }}"
+    name: "rhel-instance-{{ item }}"
     project: "{{ project_id }}"
     zone: "{{ zone }}"
     auth_kind: serviceaccount
