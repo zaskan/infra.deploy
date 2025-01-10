@@ -30,7 +30,7 @@
     name: "{{ firewall_name }}"
     project: "{{ project_id }}"
     network:
-      selfLink: "{{ network_result.selfLink }}"
+      selfLink: "https://www.googleapis.com/compute/v1/projects/{{ project_id }}/global/networks/{{ network_name }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
