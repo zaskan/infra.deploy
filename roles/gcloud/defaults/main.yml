@@ -10,7 +10,7 @@ zone: europe-southwest1-a
 number_of_instances: 1
 
 # GCE machine type
-machine_type: e2-micro
+machine_type: "e2-standard-16"
 
 # RHEL 9 image details
 image_project: rhel-cloud
