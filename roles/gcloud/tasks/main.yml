@@ -69,7 +69,8 @@
         initialize_params:
           source_image: "projects/{{ image_project }}/global/images/family/{{ image_family }}"
     network_interfaces:
-      - network: "{{ network_name }}"
+      - network: 
+          selfLink: "https://www.googleapis.com/compute/v1/projects/{{ project_id }}/global/networks/{{ network_name }}"
         subnetwork: "{{ subnetwork_name }}"
         access_configs:
           - name: External NAT
