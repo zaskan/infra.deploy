@@ -7,7 +7,7 @@
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
     # For a custom-mode network, set auto_create_subnetworks to false
-    auto_create_subnetworks: false
+    auto_create_subnetworks: true
   register: network_result
 
 - name: "Ensure the {{ subnetwork_name }} subnetwork exists"
