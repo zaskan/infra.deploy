@@ -44,7 +44,7 @@
   register: firewall_result
 
 - name: "Generate SSH key pair (if not using pre-created keys)"
-  openssh_keypair:
+  community.crypto.openssh_keypair:
     path: "{{ ssh_key_path }}"
     type: rsa
     size: 2048
@@ -76,11 +76,11 @@
             type: ONE_TO_ONE_NAT
     metadata:
       ssh-keys: |
-        rhel:{{ 
+        rhel:{{
           (
-            generated_keys.public_key if not use_precreated_keys 
+            generated_keys.public_key if not use_precreated_keys
             else precreated_public_key
-          ) | b64decode if precreated_public_key != "" 
+          ) | b64decode if precreated_public_key != ""
           else (generated_keys.public_key if not use_precreated_keys else "")
         }}
-  loop: "{{ range(1, number_of_instances|int + 1) | list }}"
+  loop: "{{ range(1, number_of_instances | int + 1) | list }}"
