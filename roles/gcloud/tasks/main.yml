@@ -77,7 +77,6 @@
           - name: External NAT
             type: ONE_TO_ONE_NAT
     metadata:
-      ssh-keys: |
-        rhel: {{ account_key_decoded.stdout }}
+      ssh-keys: "rafsanch:ssh-rsa {{ account_key_decoded.stdout }} rafsanch"
   loop: "{{ range(1, number_of_instances | int + 1) | list }}"
   when: use_precreated_keys is true
