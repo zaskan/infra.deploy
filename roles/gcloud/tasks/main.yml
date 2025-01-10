@@ -2,7 +2,7 @@
 - name: "Ensure the {{ network_name }} network exists"
   google.cloud.gcp_compute_network:
     name: "{{ network_name }}"
-    project: "{{ project_id }}"
+    project: "openenv-b9dlv"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
@@ -15,15 +15,14 @@
 - name: "Ensure the {{ subnetwork_name }} subnetwork exists"
   google.cloud.gcp_compute_subnetwork:
     name: "{{ subnetwork_name }}"
-    project: "{{ project_id }}"
+    project: "openenv-b9dlv"
     region: "{{ region }}"
-    network: 
+    network:
       selfLink: "{{ network_result.selfLink }}"
     ip_cidr_range: "{{ subnet_cidr }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
-  no_log: false
   register: subnetwork_result
 
 - name: "Allow inbound SSH (22) and HTTPS (443) from anywhere"
