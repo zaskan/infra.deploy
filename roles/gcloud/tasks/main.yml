@@ -17,11 +17,13 @@
     name: "{{ subnetwork_name }}"
     project: "{{ project_id }}"
     region: "{{ region }}"
-    network: "{{ network_result }}"
+    network: 
+      selfLink: "{{ network_result.selfLink }}"
     ip_cidr_range: "{{ subnet_cidr }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
     service_account_contents: "{{ service_account_content }}"
+  no_log: false
   register: subnetwork_result
 
 - name: "Allow inbound SSH (22) and HTTPS (443) from anywhere"
