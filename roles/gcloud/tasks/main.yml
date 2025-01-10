@@ -15,7 +15,8 @@
     name: "{{ subnetwork_name }}"
     project: "{{ project_id }}"
     region: "{{ region }}"
-    network: "{{ network_result.selfLink }}"
+    network: 
+      selfLink: "{{ network_result.selfLink }}"
     ip_cidr_range: "{{ subnet_cidr }}"
     auth_kind: serviceaccount
     service_account_file: "{{ service_account_file }}"
