@@ -13,7 +13,7 @@
 - name: "Ensure the {{ subnetwork_name }} subnetwork exists"
   google.cloud.gcp_compute_subnetwork:
     name: "{{ subnetwork_name }}"
-    project: "test_project"
+    project: "{{ project_id }}"
     region: "{{ region }}"
     network:
       selfLink: "{{ network_result.selfLink }}"
