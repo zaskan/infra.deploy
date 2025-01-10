@@ -80,7 +80,7 @@
           (
             generated_keys.public_key if not use_precreated_keys
             else account_key_decoded.stdout
-          ) if precreated_public_key != ""
+          ) if precreated_public_key.stdout != ""
           else (generated_keys.public_key if not use_precreated_keys else "")
         }}
   loop: "{{ range(1, number_of_instances | int + 1) | list }}"
