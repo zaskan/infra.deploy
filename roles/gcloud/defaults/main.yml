@@ -3,8 +3,8 @@
 
 project_id: your-gcp-project-id
 credentials_file: /path/to/your-service-account.json
-region: us-central1
-zone: us-central1-a
+region: europe-southwest1
+zone: europe-southwest1-a
 
 # Number of instances to create
 number_of_instances: 1
@@ -25,9 +25,9 @@ precreated_public_key: ""
 ssh_key_path: "~/.ssh/gcp_rhel_key"
 
 # Network details
-network_name: my-custom-network
-subnetwork_name: my-custom-subnet
+network_name: ansiblenet
+subnetwork_name: ansiblesubnet
 subnet_cidr: 10.0.0.0/24
 
 # Firewall rule name
-firewall_name: allow-ssh-https
+firewall_name: ansiblerules
