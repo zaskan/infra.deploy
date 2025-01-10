@@ -55,7 +55,7 @@
 
 - name: "Create {{ number_of_instances }} instance(s)"
   google.cloud.gcp_compute_instance:
-    name: "rhel-instance-{{ item }}"
+    name: "rhel9-instance-{{ item }}"
     project: "{{ project_id }}"
     zone: "{{ zone }}"
     auth_kind: serviceaccount
@@ -77,6 +77,6 @@
           - name: External NAT
             type: ONE_TO_ONE_NAT
     metadata:
-      ssh-keys: "rafsanch:ssh-rsa {{ account_key_decoded.stdout }} rafsanch"
+      ssh-keys: "rafsanch: {{ lookup('file', '/home/rafsanch/.ssh/id_rsa.pub')}} rafsanch"
   loop: "{{ range(1, number_of_instances | int + 1) | list }}"
   when: use_precreated_keys is true

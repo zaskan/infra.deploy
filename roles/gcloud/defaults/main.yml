@@ -22,7 +22,7 @@ use_precreated_keys: false
 precreated_public_key: ""
 
 # Paths to store SSH keys if generating them
-ssh_key_path: "~/.ssh/gcp_rhel_key"
+ssh_key_path: "~/.ssh/id_rsa.pub"
 
 # Network details
 network_name: ansiblenet
