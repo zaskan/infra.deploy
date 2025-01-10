@@ -76,11 +76,6 @@
             type: ONE_TO_ONE_NAT
     metadata:
       ssh-keys: |
-        rhel:{{
-          (
-            generated_keys.public_key if not use_precreated_keys
-            else account_key_decoded.stdout
-          ) if precreated_public_key.stdout != ""
-          else (generated_keys.public_key if not use_precreated_keys else "")
-        }}
+        rhel: {{ account_key_decoded.stdout }}
   loop: "{{ range(1, number_of_instances | int + 1) | list }}"
+  when: use_precreated_keys is true
