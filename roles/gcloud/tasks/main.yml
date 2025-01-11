@@ -18,7 +18,7 @@
     network:
       selfLink: "https://www.googleapis.com/compute/v1/projects/{{ project_id }}/global/networks/{{ network_name }}"
     ip_cidr_range: "{{ subnet_cidr }}"
-    auth_kind: access_token
+    auth_kind: accesstoken
     access_token: "{{ lookup('ansible.builtin.env', 'GOOGLE_OAUTH_ACCESS_TOKEN') }}"
   register: subnetwork_result
 
@@ -28,7 +28,7 @@
     project: "{{ project_id }}"
     network:
       selfLink: "https://www.googleapis.com/compute/v1/projects/{{ project_id }}/global/networks/{{ network_name }}"
-    auth_kind: access_token
+    auth_kind: accesstoken
     access_token: "{{ lookup('ansible.builtin.env', 'GOOGLE_OAUTH_ACCESS_TOKEN') }}"
     allowed:
       - ip_protocol: tcp
@@ -54,7 +54,7 @@
     name: "rhel9-instance-{{ item }}"
     project: "{{ project_id }}"
     zone: "{{ zone }}"
-    auth_kind: access_token
+    auth_kind: accesstoken
     access_token: "{{ lookup('ansible.builtin.env', 'GOOGLE_OAUTH_ACCESS_TOKEN') }}"
     machine_type: "{{ machine_type }}"
     disks:
