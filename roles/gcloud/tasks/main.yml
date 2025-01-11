@@ -3,7 +3,7 @@
   google.cloud.gcp_compute_network:
     name: "{{ network_name }}"
     project: "{{ project_id }}"
-    auth_kind: access_token
+    auth_kind: accesstoken
     access_token: "{{ lookup('ansible.builtin.env', 'GOOGLE_OAUTH_ACCESS_TOKEN') }}"
     auto_create_subnetworks: true
   register: network_result
