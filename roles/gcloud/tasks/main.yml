@@ -68,7 +68,7 @@
         type: pd-standard
         initialize_params:
           source_image: "projects/{{ image_project }}/global/images/family/{{ image_family }}"
-          disk_size_gb: 60GB
+          disk_size_gb: 60
     network_interfaces:
       - network:
           selfLink: "https://www.googleapis.com/compute/v1/projects/{{ project_id }}/global/networks/{{ network_name }}"
